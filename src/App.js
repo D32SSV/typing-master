@@ -1,35 +1,28 @@
-import React, { useState } from 'react';
-import { ThemeProvider } from './components/ThemeContext'; 
-import Navbar from "./components/Navbar";
-import Typingpage from "./components/Typingpage"
-import Footer from "./components/footer";
-import ScoreSummary from "./components/ScoreSummary"; 
-import LoginComponent from "./components/login"
+import { GlobalStyle } from "./Styles/global";
+import { ThemeProvider } from "styled-components";
+import { useTheme } from "./Context/ThemeContext";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { Route, Routes } from "react-router-dom";
+import HomePage from "./Pages/HomePage";
+import UserPage from "./Pages/UserPage";
 
-const App=()=>{
-    const [testCompleted, setTestCompleted] = useState(false);
-    const [wpm, setWpm] = useState(0);
-    const [accuracy, setAccuracy] = useState(0);
-    return(
-        <ThemeProvider>
-        <div >
-            <Navbar/>
-            {testCompleted 
-    ? <ScoreSummary wpm={wpm} accuracy={accuracy}/> 
-    : <Typingpage onTestEnd={(calculatedWpm, calculatedAccuracy) => {
-        setWpm(calculatedWpm);
-        setAccuracy(calculatedAccuracy);
-        setTestCompleted(true);
-    }} />
-}
-           <Footer/>
-           <LoginComponent/>
-           
-           
-        </div>
-        </ThemeProvider>
-        
-    )
+
+function App() {
+
+  const {theme} = useTheme()
+  return (
+    <ThemeProvider theme={theme}>
+      <ToastContainer/>
+      <GlobalStyle />
+
+      <Routes>
+        <Route path="/" element={<HomePage/>}></Route>
+        <Route path="/user" element={<UserPage/>}></Route>
+      </Routes>
+
+    </ThemeProvider>
+  );
 }
 
 export default App;
